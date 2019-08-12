@@ -1,0 +1,10 @@
+#!/bin/bash  
+set -e
+cd "$(dirname "$(readlink -f "$0")")"
+
+chartsToPublish=minio
+for chart in $chartsToPublish; do
+    helm package -d docs stable/$chart
+done
+helm repo index --url https://hnicke.github.io/charts . --merge docs/index.yaml
+echo Updated index
